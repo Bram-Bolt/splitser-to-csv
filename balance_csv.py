@@ -1,15 +1,21 @@
 # importing required classes
 from pypdf import PdfReader
 
+import csv
 import extraction_utils
-
-# creating a pdf reader object
-reader = PdfReader("example.pdf")
-balance_page = reader.pages[1]
 
 
 def get_heading() -> str:
-    return "Participant,Balance,Expenses+,Expenses-,Income+,Income-,Payment+,Payment-"
+    return [
+        "Participant",
+        "Balance",
+        "Expenses+",
+        "Expenses-",
+        "Income+",
+        "Income-",
+        "Payment+",
+        "Payment-",
+    ]
 
 
 # extract text
@@ -27,7 +33,10 @@ def get_rows(page):
     return rows
 
 
-output_list = [[get_heading()]]
-output_list + get_rows(balance_page)
-
-print(output_list + get_rows(balance_page))
+def write_csv(inp):
+    reader = PdfReader(inp)
+    balance_page = reader.pages[1]
+    output_list = [get_heading()] + get_rows(balance_page)
+    with open("out.csv", "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerows(output_list)
