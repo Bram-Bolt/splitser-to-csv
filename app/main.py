@@ -2,21 +2,25 @@
 from pypdf import PdfReader
 import balance_csv
 import expenses_csv
-import sys
 
 
+from lang import LANGUAGES 
 import argparse
 
-
 def main():
-    parser = argparse.ArgumentParser(description="Process some CSV files.")
+    global language_string
+    parser = argparse.ArgumentParser(description="PDF to change to CSV")
     parser.add_argument(
         "filename", type=str, help="The output file name (with extension)."
     )
-    args = parser.parse_args()
+    
+    parser.add_argument('-l', '--language', type=str, default='EN', help='Language code (default: EN)')
 
-    balance_csv.write_csv(args.filename)
-    expenses_csv.write_csv(args.filename)
+    args = parser.parse_args()
+    language = LANGUAGES.get(args.language, LANGUAGES['EN'])
+
+    balance_csv.write_csv(args.filename, language)
+    expenses_csv.write_csv(args.filename, language)
 
 
 if __name__ == "__main__":

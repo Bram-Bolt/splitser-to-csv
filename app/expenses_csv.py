@@ -6,9 +6,7 @@ import csv
 import lang
 import balance_csv
 
-language = lang.NL
 balance_file = "../output/balance.csv"
-# creating a pdf reader object
 
 
 def get_heading():
@@ -44,21 +42,6 @@ def settlement_parser(settlements):
     return x
 
 
-# def transaction_parser(transaction):
-#     remainder = transaction
-#     for participant in participant_list:
-#         if transaction.startswith(participant):
-#             paid_by = participant
-#             remainder = transaction[len(participant) :]
-#     description = remainder.split("€")[0].strip()
-#     remainder = "€".join(remainder.split("€")[1:])
-#     amount = extraction_utils.balances_to_float(remainder.split(" ")[1])
-#     date = remainder.split(" ")[2]
-#     settlements = " ".join(remainder.split(" ")[3:])
-#     parsed_settlements = settlement_parser(settlements)
-#     return [paid_by, description, amount, date] + parsed_settlements
-
-
 def transaction_parser(transaction):
     remainder = transaction
     for participant in get_participant_list(balance_file):
@@ -75,12 +58,12 @@ def transaction_parser(transaction):
     return [paid_by, description, amount, date] + parsed_settlements
 
 
-def get_transaction_rows(expense_pages):
+def get_transaction_rows(expense_pages, language):
     transaction_rows = []
     sb = ""
     for page in expense_pages[:-1]:
         transactions = extraction_utils.select_rows(
-            page, start_label="exp start", end_label="exp end"
+            page, start_label="exp start", end_label="exp end", language=language
         )
         for transaction in transactions:
             if transaction.endswith(")"):
@@ -91,7 +74,7 @@ def get_transaction_rows(expense_pages):
                 sb += transaction
 
     transactions = extraction_utils.select_rows(
-        expense_pages[-1], start_label="exp start", end_label="exp last end"
+        expense_pages[-1], start_label="exp start", end_label="exp last end", language=language
     )
 
     for transaction in transactions:
@@ -105,15 +88,12 @@ def get_transaction_rows(expense_pages):
     return transaction_rows
 
 
-def write_csv(inp):
+def write_csv(inp, language):
     reader = PdfReader(inp)
     expense_pages = reader.pages[2:]
-    output_list = [get_heading()] + get_transaction_rows(expense_pages)
+    output_list = [get_heading()] + get_transaction_rows(expense_pages, language)
     with open("../output/expenses.csv", "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(output_list)
 
 
-fn = "../example2.pdf"
-
-write_csv(fn)

@@ -1,9 +1,10 @@
-import lang
-
-language = lang.NL
+import main
 
 
-def select_rows(page, start_label, end_label):
+
+
+
+def select_rows(page, start_label, end_label, language):
     text_rows = page.extract_text().split("\n")
     start = language[start_label]
     end = language[end_label]

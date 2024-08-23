@@ -19,9 +19,9 @@ def get_heading() -> str:
 
 
 # extract text
-def get_rows(page):
+def get_rows(page, language):
     selected_rows = extraction_utils.select_rows(
-        page, start_label="bal start", end_label="bal end"
+        page, start_label="bal start", end_label="bal end", language=language
     )
     rows = []
     for participant in selected_rows:
@@ -33,10 +33,10 @@ def get_rows(page):
     return rows
 
 
-def write_csv(inp):
+def write_csv(inp, language):
     reader = PdfReader(inp)
     balance_page = reader.pages[1]
-    output_list = [get_heading()] + get_rows(balance_page)
+    output_list = [get_heading()] + get_rows(balance_page, language)
     with open("../output/balance.csv", "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(output_list)
