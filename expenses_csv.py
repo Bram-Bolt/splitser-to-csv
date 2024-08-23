@@ -1,15 +1,19 @@
-# importing required classes 
-from pypdf import PdfReader 
+# importing required classes
+from pypdf import PdfReader
+import extraction_utils
+from icecream import ic
 
 import lang
+
 language = lang.NL
 
-# creating a pdf reader object 
-reader = PdfReader('example.pdf') 
-expense_pages = reader.pages[2:] 
+# creating a pdf reader object
+reader = PdfReader("example.pdf")
+expense_pages = reader.pages[2:]
 
 ex_expense_pages = expense_pages[0]
-transactions = ex_expense_pages.extract_text().split("\n")
+transactions = extraction_utils.select_rows(
+    ex_expense_pages, start_label="exp start", end_label="exp end"
+)
 
-for trans in transactions:
-    print(trans)
+ic(transactions)
