@@ -18,3 +18,4 @@ __pycache__
 ## splitser-to-csv
 ##############################
 *.pdf
+*.csv
