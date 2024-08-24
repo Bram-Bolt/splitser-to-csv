@@ -36,7 +36,7 @@ def select_rows(
         return []
 
 
-# Convert a balance to a float
+# Convert an amount to a float
 def amount_to_float(balance: str) -> float:
     try:
         return float(balance.replace(".", "").replace(",", "."))
