@@ -34,7 +34,7 @@ def main():
         # Generate CSV of expenses
         expenses_csv.write_csv(args.filename, language)
 
-        logging.info(f'Convertion of "{args.filename}" finished succesfully.')
+        logging.info(f'Conversion of "{args.filename}" finished succesfully.')
     except Exception as e:
         logging.error(f"An unexpected error occurred: {e}")
 

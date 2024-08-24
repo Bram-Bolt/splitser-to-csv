@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 # Make heading for CSV
-def get_heading() -> str:
+def get_heading() -> List[str]:
     return [
         "Participant",
         "Balance",
