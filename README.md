@@ -11,7 +11,7 @@ cd app
 python3 main.py [file]
 ```
 
-### 🇳🇱Dutch (splitser)
+### 🇳🇱Dutch (WieBetaaltWat)
 ```bash
 python3 main.py [file] -l NL
 ```
