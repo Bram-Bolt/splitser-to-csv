@@ -26,7 +26,9 @@ def select_rows(
         return text_rows[start_index:end_index]
 
     except ValueError as e:
-        logging.error(f"Label not found in the text rows: {e}")
+        logging.error(
+            f"Label not found in the text rows, is the language selected correctly?: {e}"
+        )
         return []
 
     except KeyError as e:
