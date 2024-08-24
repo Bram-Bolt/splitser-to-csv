@@ -1,4 +1,4 @@
-# splitser-to-csv
+# ⚠️ [WIP] splitser-to-csv
 Simple python script to generate CSVs based on splitser settlement PDFs.
 ## Quick Set Up
 ```bash
