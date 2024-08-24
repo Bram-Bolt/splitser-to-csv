@@ -39,7 +39,9 @@ def process_participant_row(participant: str) -> List[str]:
     split_participant = participant.split("€")
     name = [split_participant[0][:-1]]
     # convert balance strings to floats.
-    balances = extraction_utils.balances_to_float(split_participant[1:])
+    balances = [
+        extraction_utils.amount_to_float(balance) for balance in split_participant[1:]
+    ]
     return name + balances
 
 
@@ -47,7 +49,7 @@ def process_participant_row(participant: str) -> List[str]:
 def write_csv(input_pdf_path: str, language: Dict[str, str]) -> None:
     try:
         reader = PdfReader(input_pdf_path)
-        # get the blaance page
+        # get the balance page
         balance_page = reader.pages[1]
     except FileNotFoundError:
         logging.error(f"The file {input_pdf_path} was not found.")
