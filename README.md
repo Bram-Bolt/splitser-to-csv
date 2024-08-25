@@ -2,18 +2,19 @@
 Simple python script to generate CSVs based on splitser settlement PDFs.
 ## Quick Set Up
 ```bash
-git clone https://github.com/bram-bolt/splitser-to-pdf.git
-cd app
+git clone https://github.com/bram-bolt/splitser-to-csv.git
+cd splitser-to-csv
 ```
 
+> TEMPORARY!
 ### 🇬🇧 English (splitser)
 ```bash
-python3 main.py [file]
+python -m app.main [file]
 ```
 
 ### 🇳🇱Dutch (WieBetaaltWat)
 ```bash
-python3 main.py [file] -l NL
+python -m app.main [file] -l NL
 ```
 
 
