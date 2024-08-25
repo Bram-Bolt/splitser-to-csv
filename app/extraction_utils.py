@@ -17,11 +17,17 @@ def select_rows(
         start = language[start_label]
         end = language.get(end_label)  # Use get() to avoid KeyError
 
-        # start one after heading of rows
-        start_index = text_rows.index(start) + 1
+        # Find the start index based on 'starts with'
+        start_index = (
+            next(i for i, row in enumerate(text_rows) if row.startswith(start)) + 1
+        )
 
-        # if there is an end, select until end.
-        end_index = text_rows.index(end) if end else None
+        # Find the end index based on 'starts with', if end is provided
+        end_index = (
+            next((i for i, row in enumerate(text_rows) if row.startswith(end)))
+            if end
+            else None
+        )
 
         return text_rows[start_index:end_index]
 
@@ -37,9 +43,13 @@ def select_rows(
 
 
 # Convert an amount to a float
-def amount_to_float(balance: str) -> float:
+def amount_to_float(balance: str, language: Dict[str, str]) -> float:
     try:
-        return float(balance.replace(".", "").replace(",", "."))
+        seperator = language["seperator"]
+        if seperator == ".":
+            return float(balance.replace(",", ""))
+        else:
+            return float(balance.replace(".", "").replace(",", "."))
     except ValueError as e:
         logging.error(f"Could not convert balance to float: {e}")
         return None

@@ -31,7 +31,7 @@ def get_participant_list(filename: str) -> list[str]:
 
 
 # Parse a settlement
-def settlement_parser(settlements: str) -> List[str]:
+def settlement_parser(settlements: str, language: Dict[str, str]) -> List[str]:
     try:
         split_settlements = settlements.split(")")
         # make a dictionary of the settlements {name: amount}
@@ -39,7 +39,7 @@ def settlement_parser(settlements: str) -> List[str]:
         for settlement in split_settlements[:-1]:
             data = settlement.replace("(", "").split("€")
             settlement_dict[data[0].replace(",", "").strip()] = (
-                extraction_utils.amount_to_float(data[1])
+                extraction_utils.amount_to_float(data[1], language)
             )
 
         parsed_settlements = [
@@ -53,7 +53,7 @@ def settlement_parser(settlements: str) -> List[str]:
 
 
 # parse a transaction
-def transaction_parser(transaction: str) -> List[str]:
+def transaction_parser(transaction: str, language: Dict[str, str]) -> List[str]:
     try:
         # set remainder of string to parse
         remainder = transaction
@@ -66,15 +66,18 @@ def transaction_parser(transaction: str) -> List[str]:
         description = remainder.split("€")[0].strip()
         remainder = "€".join(remainder.split("€")[1:]).replace(" ", "")
         # Locate comma
-        comma_index = remainder.find(",")
+        comma_index = remainder.find(language["seperator"])
         # Index amount
-        amount = extraction_utils.amount_to_float(remainder[: comma_index + 3])
+        amount = extraction_utils.amount_to_float(
+            remainder[: comma_index + 3], language
+        )
         # Index Date
         date = remainder[comma_index + 3 : comma_index + 13]
         # Index Settlements
         settlements = remainder[comma_index + 13 :]
         # Parse settlements
-        parsed_settlements = settlement_parser(settlements)
+        print([paid_by, description, amount, date])
+        parsed_settlements = settlement_parser(settlements, language)
         return [paid_by, description, amount, date] + parsed_settlements
     except Exception as e:
         logging.error(f"Error parsing transaction: {e}")
@@ -87,11 +90,12 @@ def build_transactions(
     transaction_rows: List[str],
     transaction_builder: str,
     parser: Callable,
+    language: Dict[str, str],
 ) -> str:
     for transaction in transactions:
         if transaction.endswith(")"):
             transaction_builder += transaction
-            transaction_rows.append(parser(transaction_builder))
+            transaction_rows.append(parser(transaction_builder, language))
             transaction_builder = ""
         else:
             transaction_builder += transaction
@@ -111,7 +115,11 @@ def get_transaction_rows(
                 page, start_label="exp start", end_label="exp end", language=language
             )
             transaction_builder = build_transactions(
-                transactions, transaction_rows, transaction_builder, transaction_parser
+                transactions,
+                transaction_rows,
+                transaction_builder,
+                transaction_parser,
+                language,
             )
 
         # Process the last page
@@ -122,7 +130,11 @@ def get_transaction_rows(
             language=language,
         )
         build_transactions(
-            transactions, transaction_rows, transaction_builder, transaction_parser
+            transactions,
+            transaction_rows,
+            transaction_builder,
+            transaction_parser,
+            language,
         )
 
         return transaction_rows

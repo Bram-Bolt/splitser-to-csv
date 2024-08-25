@@ -29,18 +29,21 @@ def get_rows(page: PageObject, language: Dict[str, str]) -> List[List[str]]:
         page, start_label="bal start", end_label="bal end", language=language
     )
     # process each participant row
-    rows = [process_participant_row(participant) for participant in selected_rows]
+    rows = [
+        process_participant_row(participant, language) for participant in selected_rows
+    ]
     return rows
 
 
 # Process a participant row
-def process_participant_row(participant: str) -> List[str]:
+def process_participant_row(participant: str, language: Dict[str, str]) -> List[str]:
     # parse row
     split_participant = participant.split("€")
     name = [split_participant[0][:-1]]
     # convert balance strings to floats.
     balances = [
-        extraction_utils.amount_to_float(balance) for balance in split_participant[1:]
+        extraction_utils.amount_to_float(balance, language)
+        for balance in split_participant[1:]
     ]
     return name + balances
 
