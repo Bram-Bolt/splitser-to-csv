@@ -1,4 +1,5 @@
 NL = {
+    "currency notation": "€-",
     "seperator": ",",
     "bal start": "Deelnemer Saldo + - + - + -",
     "bal end": None,
@@ -8,6 +9,7 @@ NL = {
 }
 
 EN = {
+    "currency notation": "-€",
     "seperator": ".",
     "bal start": "Member Balance + - + - + -",
     "bal end": None,

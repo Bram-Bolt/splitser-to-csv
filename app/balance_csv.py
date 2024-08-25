@@ -1,5 +1,5 @@
 from pypdf import PdfReader, PageObject
-from typing import List, Dict
+from typing import List, Dict, Tuple
 import csv
 from . import extraction_utils
 import logging
@@ -40,14 +40,26 @@ def get_rows(page: PageObject, language: Dict[str, str]) -> List[List[str]]:
 # Process a participant row
 def process_participant_row(participant: str, language: Dict[str, str]) -> List[str]:
     # parse row
-    split_participant = participant.split("€")
-    name = [split_participant[0][:-1]]
+
+    name, raw_balances = balance_parser(participant, language)
     # convert balance strings to floats.
     balances = [
-        extraction_utils.amount_to_float(balance, language)
-        for balance in split_participant[1:]
+        extraction_utils.amount_to_float(balance, language) for balance in raw_balances
     ]
     return name + balances
+
+
+def balance_parser(
+    participant: str, language: Dict[str, str]
+) -> Tuple[List[str], List[str]]:
+    split_participant = participant.split("€")
+    name = split_participant[0].strip()
+    balances = split_participant[1:]
+    if language["currency notation"] == "€-":
+        return ([name], balances)
+    if name.endswith("-"):
+        balances[0] = "-" + balances[0]
+    return ([name[:-1].strip()], balances)
 
 
 # write final balance csv
