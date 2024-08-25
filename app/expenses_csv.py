@@ -76,7 +76,6 @@ def transaction_parser(transaction: str, language: Dict[str, str]) -> List[str]:
         # Index Settlements
         settlements = remainder[comma_index + 13 :]
         # Parse settlements
-        print([paid_by, description, amount, date])
         parsed_settlements = settlement_parser(settlements, language)
         return [paid_by, description, amount, date] + parsed_settlements
     except Exception as e:
