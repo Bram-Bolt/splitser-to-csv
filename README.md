@@ -19,4 +19,4 @@ python3 main.py [file] -l NL
 
 ## How to download .pdf
 
-> Coming soon.
+> Tutorial Coming soon.
