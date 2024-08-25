@@ -1,8 +1,8 @@
 from pypdf import PdfReader
-import balance_csv
-import expenses_csv
+from . import balance_csv
+from . import expenses_csv
+from .lang import LANGUAGES
 import argparse
-from lang import LANGUAGES
 import logging
 
 logging.basicConfig(level=logging.INFO)

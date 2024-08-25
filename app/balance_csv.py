@@ -1,8 +1,7 @@
-# importing required classes
 from pypdf import PdfReader, PageObject
 from typing import List, Dict
 import csv
-import extraction_utils
+from . import extraction_utils
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -64,7 +63,7 @@ def write_csv(input_pdf_path: str, language: Dict[str, str]) -> None:
     output_list = [get_heading()] + get_rows(balance_page, language)
     # write csv
     try:
-        with open("../output/balance.csv", "w", newline="") as f:
+        with open("./output/balance.csv", "w", newline="") as f:
             writer = csv.writer(f)
             writer.writerows(output_list)
         logging.info("Balance CSV file created successfully.")

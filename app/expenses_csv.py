@@ -1,13 +1,12 @@
-# importing required classes
 from pypdf import PdfReader, PageObject
-import extraction_utils
+from . import extraction_utils
 import csv
 import logging
 from typing import List, Dict, Callable
 
 logging.basicConfig(level=logging.INFO)
 
-balance_file = "../output/balance.csv"
+balance_file = "./output/balance.csv"
 
 
 # Make heading for CSV
@@ -159,7 +158,7 @@ def write_csv(input_pdf_path: str, language: Dict[str, str]) -> None:
 
     # write csv
     try:
-        with open("../output/expenses.csv", "w", newline="") as f:
+        with open("./output/expenses.csv", "w", newline="") as f:
             writer = csv.writer(f)
             writer.writerows(output_list)
         logging.info("Expenses CSV file created successfully.")
