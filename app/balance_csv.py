@@ -3,8 +3,11 @@ from typing import List, Dict
 import csv
 from . import extraction_utils
 import logging
+from pathlib import Path
 
 logging.basicConfig(level=logging.INFO)
+
+balance_file = Path("./output/balance.csv")
 
 
 # Make heading for CSV
@@ -63,7 +66,7 @@ def write_csv(input_pdf_path: str, language: Dict[str, str]) -> None:
     output_list = [get_heading()] + get_rows(balance_page, language)
     # write csv
     try:
-        with open("./output/balance.csv", "w", newline="") as f:
+        with open(balance_file, "w", newline="") as f:
             writer = csv.writer(f)
             writer.writerows(output_list)
         logging.info("Balance CSV file created successfully.")
