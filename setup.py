@@ -15,7 +15,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "app=app.main:main",
+            "splitser-to-csv=app.main:main",
         ],
     },
 )
