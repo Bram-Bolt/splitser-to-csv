@@ -8,7 +8,7 @@ This project will generate two files:
 
 1. balance.csv, with balances of the participants
 2. expenses.csv, with all expenses made in the settlement.
-3. 
+
 ## Quick Set Up
 ### Installation
 To install the package, clone the repository and use  `pip`  to install it locally:
