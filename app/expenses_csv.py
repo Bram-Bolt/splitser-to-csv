@@ -163,6 +163,6 @@ def write_csv(input_pdf_path: str, language: Dict[str, str]) -> None:
         with open(expenses_file, "w", newline="") as f:
             writer = csv.writer(f)
             writer.writerows(output_list)
-        logging.info("Expenses CSV file created successfully.")
+        logging.info("Expenses CSV file created successfully. See output/expenses.csv.")
     except IOError as e:
         logging.error(f"Error writing to Expenses CSV: {e}")

@@ -81,6 +81,6 @@ def write_csv(input_pdf_path: str, language: Dict[str, str]) -> None:
         with open(balance_file, "w", newline="") as f:
             writer = csv.writer(f)
             writer.writerows(output_list)
-        logging.info("Balance CSV file created successfully.")
+        logging.info("Balance CSV file created successfully. See output/balance.csv.")
     except IOError as e:
         logging.error(f"Error writing to Balance CSV: {e}")
