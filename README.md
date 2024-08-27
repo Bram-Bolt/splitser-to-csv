@@ -63,3 +63,5 @@ The generated CSVs are located in ./output
 ## Contributing
 
 Contributions are welcome! Please submit a pull request or open an issue to discuss potential changes or improvements.
+
+Questions? Feel free to reach out to [contact@brambolt.me](mailto:contact@brambolt.me).
